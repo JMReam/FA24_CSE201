@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Course List</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li id="loginStatus"><a href="#" onclick="toggleLogin()">Login</a></li>
+        </ul>
+    </nav>
+
+    <section id="userSection">
+        <div id="scheduleWrapper">
+            <h2>Your Schedule</h2>
+            <ul id="scheduleList">
+                <!-- User's scheduled classes will be shown here -->
+            </ul>
+        </div>
+
+        <div id="mapWrapper">
+            <h2>Your Classes on the Map</h2>
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
