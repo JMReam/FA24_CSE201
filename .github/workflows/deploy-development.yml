@@ -1,21 +1,16 @@
-name: Deploy Development
-
+name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - develop
-
+      - develop # Adjust if your default branch is different
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
+    - name: Checkout the repository
       uses: actions/checkout@v3
-      
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
-        destination_dir: dev
+        publish_dir: ./ # The directory with the files to publish
