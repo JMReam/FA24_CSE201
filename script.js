@@ -120,15 +120,56 @@ function clearSchedule() {
 
 // Map-related functions
 function initializeMap() {
-    const mapElement = document.getElementById('map');
-    if (!mapElement) return; // If the map container doesn't exist, exit
+    // Replace 'YOUR_ACCESS_TOKEN' with your actual Mapbox token
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmVhbWptIiwiYSI6ImNtMmVxY3Q0djAwemIyanExZjh3bXBrbDYifQ.vR08rw_la1g59duJyMpH9g';
 
-    map = L.map('map').setView([40.7128, -74.0060], 13); // Example coordinates: New York City
+    // Initialize the map
+    var map = new mapboxgl.Map({
+        container: 'map', // The HTML element to initialize the map in
+        style: 'mapbox://styles/mapbox/streets-v11', // Custom style similar to Miami's map
+        center: [-84.7333, 39.5000], // Starting position [lng, lat]
+        zoom: 14 // Starting zoom level
+    });
 
-    // Add tile layer (background map)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    // Add navigation controls (zoom, rotate, etc.)
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Add the geocoder (search bar)
+    var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl, // Use Mapbox GL
+        marker: true, // Add marker when searching
+        placeholder: "Search for places", // Placeholder text in the search bar
+    });
+
+    // Add the search bar to the map
+    map.addControl(geocoder);
+
+    // Add markers for specific locations
+    // var locations = [
+    //    { lng: -84.7333, lat: 39.5000, name: "King Library" },
+    //    { lng: -84.7345, lat: 39.5010, name: "Armstrong Student Center" },
+    //    { lng: -84.7320, lat: 39.4995, name: "McGuffey Hall" }
+    // ];
+
+    locations.forEach(function(location) {
+        new mapboxgl.Marker()
+            .setLngLat([location.lng, location.lat])
+            .setPopup(new mapboxgl.Popup().setText(location.name)) // Popup shows the location name
+            .addTo(map);
+    });
+
+    // Sidebar functionality: Zoom to location on click
+    document.querySelectorAll('.location-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            var lng = this.getAttribute('data-lng');
+            var lat = this.getAttribute('data-lat');
+            map.flyTo({
+                center: [lng, lat],
+                zoom: 16
+            });
+        });
+    });
 
     // Update markers if user is logged in
     updateMapWithClasses();
