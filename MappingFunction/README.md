@@ -1,89 +1,88 @@
-**System Requirements**
-Operating System: Windows, macOS, or Linux.
+**Detailed User Guide for our Course Mapping Application**
 
-Node.js and npm: Ensure you have Node.js installed (v14 or higher recommended). You can download it from Node.js Official Website.
-Google Chrome or another modern browser.
-Internet Access: Required for Google Maps API and Canvas API calls.
+Overview
+This application is designed to help students at Miami University efficiently view and plan their course schedule. It allows users to upload an Excel file containing their course data, view buttons for courses that match the data, and click on those buttons to plot course locations on a map and view directions from their current location. The application also has features for logging in with a university email and API key.
 
-**Step 1: Prepare the Environment**
-Install Node.js and npm:
+Step-by-Step Instructions
+1. Accessing the Application
 
-Verify installation by running the following in your terminal:
-node -v
-npm -v
+Navigate to the application in your web browser:
+Open the URL where the application is hosted.
 
-Install a Code Editor:
-Download and install Visual Studio Code (recommended) or any preferred code editor.
+Ensure your browser supports modern web features:
+The application requires JavaScript and the HTML5 File API.
 
-**Step 2: Clone or Download the Repository**
-Clone the repository (if hosted on GitHub):
+**2. Logging In**
+Open the login modal:
+Click on the “Login” button or icon to open the modal where you can enter your login details.
 
-git clone <repository-url>
+Enter your credentials:
 
-Or download the ZIP file:
-Navigate to your repository hosting site.
-Download the project as a ZIP file and extract it to a directory of your choice.
-Open the project folder in your code editor.
+Email: 
+Enter your Miami University email address. Ensure it ends with @miamioh.edu (e.g., username@miamioh.edu).
 
-**Step 3: Install Backend Dependencies**
+Password: 
+Enter your account password.
 
-Navigate to the backend directory (if the package.json file is in the root folder, you can skip this step):
-cd backend
+Canvas API Key: 
+Enter your Canvas API key (if applicable; this is required for fetching course data).
 
-Install the required Node.js dependencies:
-npm install
+Submit the login form:
+Click the “Submit” button to log in. If the credentials are correct, the modal will close, and you will see a message confirming a successful login.
 
-**Step 4: Configure the Environment**
-Create a .env file in the backend directory:
+Log out:
+If you want to log out reclick on the login button, then click on the “Logout” button, which will clear your stored credentials and log you out.
 
-touch .env
-Add the following environment variables:
-env
+**3. Uploading the Excel File, this will be phased out when integrated / passed to web and the Excel file will be a datbase**
+Select the Excel file:
+Locate the “Choose File” or file input button on the page. Click it and select the Excel file that contains your course data.
 
-GOOGLE_API_KEY=your_google_maps_api_key
-CANVAS_API_URL=https://<canvas-instance-url>/api/v1
-Replace your_google_maps_api_key with your Google Maps API key.
-Replace <canvas-instance-url> with your institution’s Canvas API base URL.
+File format requirements:
+The Excel file should have a specific structure. Ensure it includes columns for course subject code, course number, section, building name, room number, date, and time, among other necessary data.
 
-Set up CORS in server.js:
-Ensure your frontend URL (e.g., http://localhost:3000) is allowed by the backend.
+Upload the file:
+Once the file is selected, it will be automatically processed by the application. The courses within the file will be compared against the fetched courses from Canvas to create buttons for matching courses.
 
-**Step 5: Run the Backend Server**
-Call "node server.js" or the uodated name of the server, if it is running correctly, there should be a response output in your terminal saying "Server running at http://localhost:3000"
+**4. Viewing and Interacting with Course Buttons**
+Find the course buttons:
+After the file has been processed, a series of buttons will appear under the “Available Courses” section. Each button represents an individual course that matches the data from your Excel file and your Canvas account.
 
-**Step 6: Configure and Run the Frontend**
-Open the index.html file in your frontend folder.
+Understand the button labels:
+Each button will be labeled with the course subject code, course number, section, and room number (e.g., “CSC 101 - A (Room 205)”).
 
-Replace the placeholder in the Google Maps script tag with your actual Google Maps API key:
-<script src="https://maps.googleapis.com/maps/api/js?key=your_google_maps_api_key&libraries=places"></script>
+Click a button to view details:
+Clicking a button will perform the following actions:
 
-Set up a local server for the frontend:
-Install the Live Server extension in Visual Studio Code or use any other static file server.
-Open the project in VS Code, right-click index.html, and select "Open with Live Server."
+Plot the course location on the map: 
+The map will center on the course’s building and display a marker.
 
-**Step 7: Verify Excel File Processing**
-Ensure the file xlsx.full.min.js (from the SheetJS library) is included in your project directory.
-Test file uploads by clicking the file input field in the interface and uploading an Excel file.
+Fetch directions from your current location: 
+Directions will be shown from your current location to the course location. The travel mode can be adjusted in the application settings (e.g., walking, driving).
 
-**Step 8: Login and Fetch Data**
-Open the application in your browser.
-Enter your MiamiOH email, password, and Canvas API key in the login form.
-After successful login, upload an Excel file to see the course buttons populate dynamically.
+**5. Using the Map Features**
+Navigate the map:
+The map will be embedded within the application and will show the university campus and other relevant locations.
+Use the zoom in/out buttons or drag the map to explore the campus and surrounding area.
 
-**Step 9: Test Mapping Features**
-Select a course from the generated buttons.
-Verify that the map updates with the course’s location and provides directions from your current location.
+Interact with map markers:
+Clicking on a course location marker will show more information about the location.
 
-**Step 10: Logout and Cleanup**
-Use the Logout button to clear session data.
-Stop the backend server by pressing Ctrl+C in the terminal where it’s running.
+Get directions:
+Directions from your current location to the plotted course location will be displayed, allowing you to see how to get there and an estimated travel time.
 
-**Troubleshooting**
-Map Not Displaying:
-Check the console for Google Maps API errors (e.g., missing or invalid API key).
+**6. Calendar Integration (Optional)**
+View the schedule:
+If the calendar feature is implemented, it will allow you to see your course schedule visually.
 
-Excel Parsing Issues:
-Ensure the Excel file format matches the expected columns (check the code’s handleFile function for structure).
+**7. Troubleshooting and Common Issues**
+No file selected:
+Ensure you have selected an Excel file with the correct structure before submitting.
 
-CORS Errors:
-Ensure the backend allows requests from the frontend's origin in cors configuration.
+Login issues:
+If login fails, verify your email format (@miamioh.edu) and ensure you have the correct API key. Contact IT support for assistance with your Canvas API key.
+
+Course buttons not appearing:
+Confirm that the courses in your Excel file match the courses fetched from Canvas. Double-check the data structure and the section ID formats.
+
+Map or directions not working:
+Ensure that your browser has location services enabled and that you have given the necessary permissions for location access.
