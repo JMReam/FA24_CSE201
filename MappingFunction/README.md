@@ -49,11 +49,7 @@ Set up CORS in server.js:
 Ensure your frontend URL (e.g., http://localhost:3000) is allowed by the backend.
 
 **Step 5: Run the Backend Server**
-Start the server:
-
-npm start
-Verify the server is running:
-Open a browser and navigate to http://localhost:3000/api/courses (or another test route) or check in your terminal, you should see a message "Server running at http://localhost:3000"
+Call "node server.js" or the uodated name of the server, if it is running correctly, there should be a response output in your terminal saying "Server running at http://localhost:3000"
 
 **Step 6: Configure and Run the Frontend**
 Open the index.html file in your frontend folder.
