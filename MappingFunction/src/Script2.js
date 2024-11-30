@@ -26,58 +26,105 @@ document.addEventListener('DOMContentLoaded', () => {
         apiKey = storedApiKey;
         console.log('User is logged in with API key:', apiKey);
         getCourses(); // Call to fetch courses if user is logged in
+
+        // Change the login button text to "Logout"
+        const loginButton = document.getElementById('loginButton');
+        if (loginButton) {
+            loginButton.textContent = 'Logout';
+            loginButton.removeEventListener('click', handleLogin); // Remove login click event if it exists
+            loginButton.addEventListener('click', logout); // Add logout event listener
+        }
     } else {
         console.log('No active login session found.');
-        alert('Please log in to fetch courses.');
+        showCustomAlert('Please log in to fetch courses.');
     }
 });
 
-// Add event listener for file input
-document.getElementById('excelFileInput').addEventListener('change', handleFile);
+function showCustomAlert(message) {
+    const alertBox = document.getElementById('customAlert');
+    const alertMessage = document.getElementById('customAlertMessage');
+    const closeButton = document.getElementById('customAlertClose');
 
+    alertMessage.textContent = message;
+    alertBox.style.display = 'block';
+
+    closeButton.addEventListener('click', () => {
+        alertBox.style.display = 'none';
+    });
+}
+
+document.getElementById('excelFileInput').addEventListener('change', handleFile);
 // Add event listener for the login form
 document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
 
 function handleLogin(event) {
     event.preventDefault(); // Prevent form submission
 
+    // Get form values
     const email = document.querySelector('.login-form input[type="text"]').value;
     const password = document.querySelector('.login-form input[type="password"]').value;
-    const apiKey = document.querySelector('.login-form input[type="password"]:nth-of-type(2)').value; // Assuming the second password field is for API key
+    let apiKey = document.querySelector('.login-form input[type="password"]:nth-of-type(2)').value;
 
     if (!email || !password || !apiKey) {
         alert('Please fill in all fields.');
         return;
     }
 
-    // Check if the email ends with 'miamioh.edu'
     const emailPattern = /@miamioh\.edu$/;
     if (!emailPattern.test(email)) {
         alert('Invalid email domain. Please use an email that ends with @miamioh.edu.');
         return;
     }
 
-    // Mock validation logic (replace with real authentication if necessary)
+    // Mock validation logic
     if (email && password && apiKey) {
-        alert('Login successful!');
+        console.log('Login successful'); // Debugging log
+        showCustomAlert('Login successful!');
         localStorage.setItem('canvasApiKey', apiKey);
         localStorage.setItem('isLoggedIn', 'true');
-        
+        sessionStorage.setItem('cameFromOtherPage', 'true'); // Flag for session
+
+        // Change the login button text to "Logout"
+        const loginButton = document.getElementById('loginButton');
+        if (loginButton) {
+            loginButton.textContent = 'Logout';
+            loginButton.removeEventListener('click', handleLogin);
+            loginButton.addEventListener('click', logout);
+        }
+
+        // Directly call getCourses() to fetch courses immediately after login
+        apiKey = localStorage.getItem('canvasApiKey'); // Ensure apiKey is updated
+        getCourses();
+
         setTimeout(() => {
             document.getElementById('loginModal').style.display = 'none';
         }, 0);
-
     } else {
-        alert('Invalid login credentials.');
+        showCustomAlert('Invalid login credentials.');
     }
 }
 
-// Handle logout functionality
 function logout() {
     localStorage.removeItem('canvasApiKey');
     localStorage.removeItem('isLoggedIn');
-    apiKey = null;
-    alert('Logged out successfully!');
+    sessionStorage.removeItem('cameFromOtherPage'); // Clear session flag
+    showCustomAlert('Logged out successfully!');
+
+    // Clear the form fields
+    const loginFormInputs = document.querySelectorAll('.login-form input');
+    loginFormInputs.forEach(input => {
+        input.value = ''; // Clear each input value
+    });
+
+    // Change the button text back to "Login"
+    const loginButton = document.getElementById('loginButton');
+    if (loginButton) {
+        loginButton.textContent = 'Login';
+        loginButton.removeEventListener('click', logout); // Remove logout event listener
+        loginButton.addEventListener('click', toggleLogin); // Re-add login event listener
+    } else {
+        console.log('Login button not found'); // Debugging log
+    }
 }
 
 // Function to toggle modal visibility
@@ -108,6 +155,31 @@ window.addEventListener("click", function (event) {
         loginModal.style.display = "none";
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const storedApiKey = localStorage.getItem('canvasApiKey');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    document.getElementById('loginModal').style.display = 'none';
+
+    if (isLoggedIn === 'true' && storedApiKey) {
+        apiKey = storedApiKey;
+        console.log('User is logged in with API key:', apiKey);
+        getCourses(); // Call to fetch courses if user is logged in
+
+        // Change the login button text to "Logout"
+        const loginButton = document.getElementById('loginButton');
+        if (loginButton) {
+            loginButton.textContent = 'Logout';
+            loginButton.removeEventListener('click', handleLogin);
+            loginButton.addEventListener('click', logout);
+        }
+    } else {
+        console.log('No active login session found.');
+        showCustomAlert('Please log in to fetch courses.');
+    }
+});
+
+
 
 async function handleFile(event) {
     const file = event.target.files[0];
@@ -140,6 +212,7 @@ async function handleFile(event) {
 
                     if (!courseButtons.has(courseKey)) {
                         const button = document.createElement('button');
+                        console.log('Creating button for:', courseKey);
                         button.innerText = `${courseSubjectCode} ${courseNumber} - ${courseSection} (Room ${room})`;
                         button.onclick = () => {
                             plotCourseAndDirections(courseBuilding);
@@ -181,9 +254,9 @@ async function handleFile(event) {
 // }
 
 async function getCourses() {
-    const apiKey = localStorage.getItem('canvasApiKey'); // Retrieve the API key from local storage
+    const apiKey = localStorage.getItem('canvasApiKey');
     if (!apiKey) {
-        alert('Please log in to fetch courses.');
+        console.error('No API key found.');
         return [];
     }
 
@@ -191,17 +264,19 @@ async function getCourses() {
         const response = await fetch('http://localhost:3000/api/courses', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
             },
-            body: JSON.stringify({ apiKey }) // Send the API key in the request body
+            body: JSON.stringify({ apiKey })
         });
 
         if (!response.ok) {
+            console.error(`HTTP error! Status: ${response.status}`);
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const courses = await response.json();
-        console.log('Fetched courses:', courses); // Debug log
+        console.log('Fetched courses:', courses);
         return Array.isArray(courses) ? courses : [];
     } catch (error) {
         console.error('Error fetching courses:', error);
@@ -229,6 +304,7 @@ async function getActiveCanvasCourses() {
 
                 const sectionIDs = section.includes('-') ? expandSectionRange(section) : [section];
 
+                console.log(`Parsed course: ${subjectCodes} ${courseNumber} with sections [${sectionIDs}]`);
                 return {
                     subjectCodes,
                     courseNumber,
@@ -260,13 +336,18 @@ function expandSectionRange(sectionRange) {
     }
 }
 
-// Check if course from Excel matches any active Canvas courses
 function isCourseActive(courses, subjectCode, courseNumber, excelSectionIDs) {
-    return courses.some(course =>
-        course.subjectCodes.some(code => code.toLowerCase() === subjectCode.toLowerCase()) &&
-        course.courseNumber === courseNumber &&
-        excelSectionIDs.some(excelSectionID => course.sectionIDs.includes(excelSectionID))
-    );
+    console.log(`Checking ${subjectCode} ${courseNumber} with sections [${excelSectionIDs}]`);
+    return courses.some(course => {
+        const match = course.subjectCodes.some(code => code.toLowerCase() === subjectCode.toLowerCase()) &&
+                      course.courseNumber === courseNumber &&
+                      excelSectionIDs.some(excelSectionID => course.sectionIDs.includes(excelSectionID));
+
+        if (match) {
+            console.log(`Match found: ${subjectCode} ${courseNumber}`);
+        }
+        return match;
+    });
 }
 
 // Plot course location based on building name and initialize directions
