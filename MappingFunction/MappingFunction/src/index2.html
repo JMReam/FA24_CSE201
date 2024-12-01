@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Plotter with Google Maps</title>
+    <link rel="stylesheet" href="style2.css"> <!-- Style from the other index -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index2.html"><img src="Home Button.png" alt="Home" class="home-btn"></a></li>
+            <li><a href="schedule.html"><img src="Schedule.png" alt="Settings" class="schedule-btn"></a></li>
+            <li><a href="Settings.html"><img src="Settings.png" alt="Settings" class="settings-btn"></a></li>
+            <li id="loginStatus"><a href="#" onclick="toggleLogin()">Login</a></li>            
+        </ul>
+    </nav>
+
+
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
+            <h2>Login</h2>
+            <form class="login-form" id="loginForm">
+                <input type="text" placeholder="Email" required>
+                <input type="text" placeholder="Canvas API Key" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" id="loginButton">Login</button>
+                
+            </form>
+        </div>
+    </div>
+
+    <div id="customAlert" class="custom-alert">
+        <div class="custom-alert-content">
+            <span id="customAlertMessage"></span>
+            <button id="customAlertClose">OK</button>
+        </div>
+    </div>
+
+     
+    <section id="userSection">
+        <div id="scheduleWrapper">
+            <h2>Your Schedule</h2>
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls" />
+            <div id="courseButtons"></div>
+            <!-- File input for uploading Excel schedule -->
+        </div>
+
+        <div id="mapWrapper">
+            <h2>Your Classes on the Map</h2>
+            <div id="map" style="height: 600px; width: 100%;"></div> <!-- Map container -->
+            
+            <!-- Course Buttons Container (buttons will be dynamically added here) -->
+            
+        </div>
+    </section>
+
+    <script src="Script2.js"></script>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK0ic4TKDKcSpo06037WR4YZam42wMrik&libraries=places&callback=initMap" async defer></script>
+    <!-- SheetJS for reading Excel files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index2.html"><img src="Home Button.png" alt="Home" class="home-btn"></a></li>
+            <li><a href="schedule.html"><img src="Schedule.png" alt="Settings" class="schedule-btn"></a></li>
+            <li><a href="Settings.html"><img src="Settings.png" alt="Settings" class="settings-btn"></a></li>
+            <li id="loginStatus"><a href="#" onclick="toggleLogin()">Login</a></li>
+            <li id="loginStatus"><a href="#" onclick="logout()">Logout</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="settings-container">
+        <h1>Settings</h1>
+
+        <!-- Display User Email -->
+        <div class="user-email">
+            <label for="email">School Email: </label>
+            <span id="emailDisplay">Loading...</span> <!-- Display user's email -->
+            <button onclick="editEmail()">Edit Email</button>
+        </div>
+
+        <!-- Change Email -->
+        <div class="change-email" style="display: none;">
+            <input type="email" id="emailInput" placeholder="Enter your new email">
+            <button onclick="saveEmail()">Save Email</button>
+            <button onclick="cancelEditEmail()">Cancel</button>
+        </div>
+        <br>
+
+        <!-- Display Canvas Key -->
+        <div class="canvas-key">
+            <label for="canvasKey">Canvas Key: </label>
+            <span id="canvasKeyDisplay">Loading...</span> <!-- Display user's Canvas Key -->
+            <button onclick="editCanvasKey()">Edit Canvas Key</button>
+        </div>
+
+        <!-- Change Canvas Key -->
+        <div class="change-canvas-id" style="display: none;">
+            <input type="text" id="canvasIdInput" placeholder="Enter your new Canvas Key">
+            <button onclick="saveCanvasKey()">Save Canvas Key</button>
+            <button onclick="cancelEditCanvasKey()">Cancel</button>
+        </div>
+        <br>
+
+        <!-- Display Password -->
+        <div class="password">
+            <label for="password">Password: </label>
+            <span id="passwordDisplay">Loading...</span> <!-- Display user's password -->
+            <button onclick="editPassword()">Edit Password</button>
+        </div>
+
+        <!-- Change Password -->
+        <div class="change-password" style="display: none;">
+            <input type="password" id="passwordInput" placeholder="Enter new password">
+            <button onclick="savePassword()">Save Password</button>
+            <button onclick="cancelEditPassword()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        function loadSettings() {
+            const email = localStorage.getItem('Email: ') || 'Not set';
+            const canvasKey = localStorage.getItem('canvasApiKey') || 'Not set';
+            const password = localStorage.getItem('Password: ') || 'Not set';
+
+            // Populate the elements with data
+            document.getElementById('emailDisplay').textContent = email;
+            document.getElementById('canvasKeyDisplay').textContent = canvasKey;
+            document.getElementById('passwordDisplay').textContent = password;
+        }
+
+        // Logout function to clear localStorage
+        function logout() {
+            localStorage.removeItem('Email: ');
+            localStorage.removeItem('canvasApiKey');
+            localStorage.removeItem('Password: ');
+            localStorage.removeItem('parsedCourses');
+            document.getElementById('emailDisplay').textContent = 'Not set';
+            document.getElementById('canvasKeyDisplay').textContent = 'Not set';
+            document.getElementById('passwordDisplay').textContent = 'Not set';
+            
+            // Optionally, redirect to the login page or refresh the page
+            showCustomAlert('Logged out successfully.');
+            window.location.href = 'index2.html'; // Change this to your desired logout redirect page
+        }
+
+        function showCustomAlert(message) {
+    const alertBox = document.getElementById('customAlert');
+    const alertMessage = document.getElementById('customAlertMessage');
+    const closeButton = document.getElementById('customAlertClose');
+
+    alertMessage.textContent = message;
+    alertBox.style.display = 'block';
+
+    closeButton.addEventListener('click', () => {
+        alertBox.style.display = 'none';
+    });
+}
+
+        // Edit Email
+        function editEmail() {
+            document.querySelector('.change-email').style.display = 'block';
+        }
+
+        function saveEmail() {
+            const newEmail = document.getElementById('emailInput').value;
+            if (newEmail) {
+                localStorage.setItem('Email: ', newEmail);
+                document.getElementById('emailDisplay').textContent = newEmail;
+                document.querySelector('.change-email').style.display = 'none';
+            } else {
+                alert('Please enter a valid email.');
+            }
+        }
+
+        function cancelEditEmail() {
+            document.querySelector('.change-email').style.display = 'none';
+        }
+
+        // Edit Canvas Key
+        function editCanvasKey() {
+            document.querySelector('.change-canvas-id').style.display = 'block';
+        }
+
+        function saveCanvasKey() {
+            const newCanvasKey = document.getElementById('canvasIdInput').value;
+            if (newCanvasKey) {
+                localStorage.setItem('canvasApiKey', newCanvasKey);
+                document.getElementById('canvasKeyDisplay').textContent = newCanvasKey;
+                document.querySelector('.change-canvas-id').style.display = 'none';
+            } else {
+                alert('Please enter a valid Canvas Key.');
+            }
+        }
+
+        function cancelEditCanvasKey() {
+            document.querySelector('.change-canvas-id').style.display = 'none';
+        }
+
+        // Edit Password
+        function editPassword() {
+            document.querySelector('.change-password').style.display = 'block';
+        }
+
+        function savePassword() {
+            const newPassword = document.getElementById('passwordInput').value;
+            if (newPassword) {
+                localStorage.setItem('Password: ', newPassword);
+                document.getElementById('passwordDisplay').textContent = newPassword;
+                document.querySelector('.change-password').style.display = 'none';
+            } else {
+                alert('Please enter a valid password.');
+            }
+        }
+
+        function cancelEditPassword() {
+            document.querySelector('.change-password').style.display = 'none';
+        }
+
+        // Call the function when the page loads
+        window.onload = loadSettings;
+    </script>
+</body>
+</html>
