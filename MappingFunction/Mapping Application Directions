@@ -20,7 +20,24 @@ This application helps students at Miami University efficiently view and plan th
 1. **Open the application** in a web browser by navigating to its URL.
 2. Ensure your browser supports modern web features (JavaScript and HTML5 File API).
 
-### 2. Logging In
+### 2. Obtaining Your Canvas API Key
+1. **Log in to Canvas**:
+   - Navigate to [Miami University's Canvas portal](https://miamioh.instructure.com/) and log in with your credentials.
+2. **Access your profile**:
+   - Click your profile icon in the top-left corner of the Canvas dashboard.
+3. **Go to Account Settings**:
+   - Select “Settings” from the dropdown menu.
+4. **Generate a new API token**:
+   - Scroll down to the “Approved Integrations” section.
+   - Click “New Access Token.”
+5. **Enter token details**:
+   - Provide a name for the token (e.g., “Course Scheduler App”) and set an expiration date if required.
+6. **Copy the token**:
+   - Click “Generate Token” and copy the API key. Keep it secure as it provides access to your Canvas data.
+7. **Input the token**:
+   - Paste the token into the “Canvas API Key” field in the login modal.
+
+### 3. Logging In
 1. **Open the login modal**:
    - Click the “Login” button or icon to access the login form.
 2. **Enter credentials**:
@@ -32,7 +49,7 @@ This application helps students at Miami University efficiently view and plan th
 4. **Log out**:
    - Click “Logout” to clear credentials and end the session.
 
-### 3. Uploading the Excel File
+### 4. Uploading the Excel File
 1. **Choose a file**:
    - Use the “Choose File” button to select the Excel file containing your course data.
 2. **File format requirements**:
@@ -46,7 +63,7 @@ This application helps students at Miami University efficiently view and plan th
 3. **Upload the file**:
    - The application automatically processes the file and matches courses to Canvas data.
 
-### 4. Viewing and Interacting with Course Buttons
+### 5. Viewing and Interacting with Course Buttons
 1. **Find course buttons**:
    - After processing the file, course buttons appear in the “Available Courses” section.
 2. **Button labels**:
@@ -56,7 +73,7 @@ This application helps students at Miami University efficiently view and plan th
      - Plots the course location on the map.
      - Displays directions from your current location to the course.
 
-### 5. Using Map Features
+### 6. Using Map Features
 1. **Navigate the map**:
    - Explore the map by zooming or dragging to view different locations.
 2. **Interact with markers**:
@@ -64,9 +81,10 @@ This application helps students at Miami University efficiently view and plan th
 3. **Get directions**:
    - Directions from your current location to the course will appear, showing estimated travel time.
 
-### 6. Calendar Integration (Optional)
+### 7. Calendar Integration (Optional)
 1. **View the calendar**:
-   - If available, the calendar displays your course schedule visually.
+   - If the access to Banner is available, the calendar displays your course schedule visually.
+
 
 ---
 
@@ -82,5 +100,5 @@ This application helps students at Miami University efficiently view and plan th
 
 ---
 
+For additional support or feedback, contact [burketc3@miamioh.edu](mailto:burketc3@miamioh.edu).
 
-For additional support or feedback, contact burketc3@miamioh.edu
