@@ -237,6 +237,8 @@ async function handleFile(event) {
 }
 
 
+
+
 // Function to populate the schedule
 function populateSchedule() {
     // Retrieve courses from localStorage and parse them
