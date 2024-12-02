@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" href="style2.css">
 </head>
+
 <body>
     <nav>
         <ul>
             <li><a href="index2.html"><img src="Home Button.png" alt="Home" class="home-btn"></a></li>
             <li><a href="schedule.html"><img src="Schedule.png" alt="Settings" class="schedule-btn"></a></li>
             <li><a href="Settings.html"><img src="Settings.png" alt="Settings" class="settings-btn"></a></li>
-            <li id="loginStatus"><a href="#" onclick="toggleLogin()">Login</a></li>
             <li id="loginStatus"><a href="#" onclick="logout()">Logout</a></li>
 
         </ul>
@@ -84,28 +85,18 @@
             localStorage.removeItem('Email: ');
             localStorage.removeItem('canvasApiKey');
             localStorage.removeItem('Password: ');
+            localStorage.removeItem('theme');
+            localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('parsedCourses');
             document.getElementById('emailDisplay').textContent = 'Not set';
             document.getElementById('canvasKeyDisplay').textContent = 'Not set';
             document.getElementById('passwordDisplay').textContent = 'Not set';
-            
+
             // Optionally, redirect to the login page or refresh the page
             showCustomAlert('Logged out successfully.');
             window.location.href = 'index2.html'; // Change this to your desired logout redirect page
         }
 
-        function showCustomAlert(message) {
-    const alertBox = document.getElementById('customAlert');
-    const alertMessage = document.getElementById('customAlertMessage');
-    const closeButton = document.getElementById('customAlertClose');
-
-    alertMessage.textContent = message;
-    alertBox.style.display = 'block';
-
-    closeButton.addEventListener('click', () => {
-        alertBox.style.display = 'none';
-    });
-}
 
         // Edit Email
         function editEmail() {
@@ -143,6 +134,19 @@
             }
         }
 
+        function showCustomAlert(message) {
+            const alertBox = document.getElementById('customAlert');
+            const alertMessage = document.getElementById('customAlertMessage');
+            const closeButton = document.getElementById('customAlertClose');
+
+            alertMessage.textContent = message;
+            alertBox.style.display = 'block';
+
+            closeButton.addEventListener('click', () => {
+                alertBox.style.display = 'none';
+            });
+        }
+
         function cancelEditCanvasKey() {
             document.querySelector('.change-canvas-id').style.display = 'none';
         }
@@ -171,4 +175,5 @@
         window.onload = loadSettings;
     </script>
 </body>
+
 </html>
